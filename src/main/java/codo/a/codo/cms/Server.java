@@ -16,12 +16,15 @@ public class Server extends spark.Spark {
 
         threadPool(maxThreads, minThreads, timeOutMillis);
 
+        staticFiles.location("/public/");
+
         before("/*", (q, a) -> log.info("Received api call for: " + q.pathInfo()));
 
         after((request, response) -> {
             response.header("Content-Encoding", "gzip");
         });
     }
+
     public static Server getInstance() {
         if(instance == null) {
             instance = new Server();
